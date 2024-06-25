@@ -3,7 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
-from bboxes_ex_msgs.msg import BoundingBoxes, BoundingBox, ObjectCount  # Import your custom message
+from bboxes_ex_msgs.msg import BoundingBoxes, BoundingBox  # Import your custom message
 import time
 
 class StopRobotNode(Node):
@@ -20,17 +20,15 @@ class StopRobotNode(Node):
 
     def listener_callback(self, msg):
         
-        bboxes = BoundingBoxes.bounding_boxes
-        msg=BoundingBox()
+        bbox=BoundingBox()
        # self.get_logger().info()
-        for i in range(1):
-            msg=bboxes[i]
-            print(msg)
-            dir(msg)
-            object_class = msg.class_id[i]
+        for bbox in msg.bounding_boxes:
+        #    msg=bboxes[i]
+           # print(msg)
+          #  dir(msg)
+            object_class = bbox.class_id
 
-            print(object_class)
-            self.get_logger().info('im in2')
+            
             if object_class == 'traffic light':  # Replace with your specific object type
                 self.get_logger().info(f'Detected object: {object_class}. Stopping robot.')
                 stop_msg = Twist()
@@ -39,7 +37,7 @@ class StopRobotNode(Node):
                 self.publisher.publish(stop_msg)
                 time.sleep(4)  # Stop for 4 seconds
                 self.get_logger().info('Resuming operation.')
-            i+=1
+            
         return None
 
 def main(args=None):
