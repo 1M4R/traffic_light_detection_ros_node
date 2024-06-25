@@ -3,7 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
-from bbox_ex_msgs.msg import BoundingBox  # Import your custom message
+from bboxes_ex_msgs.msg import BoundingBox  # Import your custom message
 import time
 
 class StopRobotNode(Node):
